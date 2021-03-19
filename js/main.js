@@ -16,6 +16,7 @@ let drawDayHolder = (day) => {
     temp.classList.add('temp');
     temp.innerHTML = `${day.temp} &#176;C`;
     dayHolder.appendChild(temp);
+
     return dayHolder;
 }
 
@@ -33,18 +34,19 @@ let drawDayForecast = (data, day) => {
     type.innerText = day.type;
     dayDetailCard.appendChild(type);
     let tempInfo = document.createElement('p');
-    tempInfo.innerHTML = `${day.temp} ${data.tempUnit}`;
+    tempInfo.innerHTML = `Temperature: ${day.temp } &#176;${data.tempUnit} or ${day.kelvin} ${data.tempUnitKelvin}`;
     dayDetailCard.appendChild(tempInfo);
     let windDirect = document.createElement('p');
-    windDirect.innerHTML = `${day.windDirection}`;
+    windDirect.innerHTML = `Wind direction: ${day.arrow} ${day.windDirection}`;
     dayDetailCard.appendChild(windDirect);
     let windSpeed = document.createElement('p');
-    windSpeed.innerHTML = `${day.windSpeed} ${data.windSpeedUnit}`;
+    windSpeed.innerHTML = `Wind speed: ${day.windSpeed} ${data.windSpeedUnit} or ${day.windSpeed2} ${data.windSpeedUnit2}`;
     dayDetailCard.appendChild(windSpeed);
 
     return dayDetailCard;
 }
 
+// Create all Day in the week cards and make it link  that redirects to details-page
 weatherData.days.forEach(day => {
     let dayCard = drawDayHolder(day);
     listOfDays.appendChild(dayCard);
@@ -54,8 +56,7 @@ weatherData.days.forEach(day => {
     });
 });
 
-
-
+// Function to handle routing and displaying content on the Home page and Details page// 
 function handelRoutes(e) {
     e.preventDefault();
     let _hash = location.hash;
@@ -84,7 +85,9 @@ function handelRoutes(e) {
     };
 };
 
+// Event listeners
 window.addEventListener("hashchange", handelRoutes);
 window.addEventListener("load", handelRoutes);
+
 
 
