@@ -1,1 +1,1 @@
-Quantox Technology - Weather forecast site
+Weather forecast site
