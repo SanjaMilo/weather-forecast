@@ -64,23 +64,55 @@ weatherData.days.forEach((day) => {
 	});
 });
 
+// Function for changing temperature unit
+let changeTempUnit = () => {
+	toggleTemp = !toggleTemp;
+
+	if (toggleTemp) {
+		btnChangeTempUnit.innerHTML = '&#176;K';
+		weatherData.tempUnit = 'K';
+		weatherData.days.forEach((day) => (day.temp = day.temp + 273.15));
+	} else {
+		btnChangeTempUnit.innerHTML = '&#176;C';
+		weatherData.tempUnit = 'C';
+		weatherData.days.forEach((day) => (day.temp = Math.round(day.temp - 273.15)));
+	};
+
+	renderDayDetails();
+};
+
+// Function for changing wind speed unit
+let changeSpeedUnit = () => {
+	toggleSpeed = !toggleSpeed;
+
+	if (toggleSpeed) {
+		btnChangeSpeedUnit.innerHTML = 'KM/H';
+		weatherData.windSpeedUnit = 'km/h';
+		weatherData.days.forEach((day) => (day.windSpeed = day.windSpeed * 18 / 5));
+	} else {
+		btnChangeSpeedUnit.innerHTML = 'M/S';
+		weatherData.windSpeedUnit = 'm/s';
+		weatherData.days.forEach((day) => (day.windSpeed = day.windSpeed * 5 / 18));
+	};
+	
+	renderDayDetails();
+};
+
 // Function to handle routing and displaying content on the Home page and Details page//
 function handelRoutes(e) {
 	e.preventDefault();
 	let _hash = location.hash;
-
 	// check if the url route includes 'details', for example in the route #details/3
 	if (_hash.indexOf('details') > -1) {
 		_hash = 'details';
 	};
-
 	switch (_hash) {
 		case '':
 			homePage.style.display = 'block';
 			detailsPage.style.display = 'none';
 			btnChangeTempUnit.style.display = 'none';
 			btnChangeSpeedUnit.style.display = 'none';
-            changeUnitsInfo.style.display = 'none'
+            changeUnitsInfo.style.display = 'none';
 			break;
 		case 'details':
 			homePage.style.display = 'none';
@@ -105,36 +137,7 @@ function renderDayDetails() {
 	detailsPage.appendChild(dayDetail);
 };
 
-let changeTempUnit = () => {
-	toggleTemp = !toggleTemp;
-
-	if (toggleTemp) {
-		btnChangeTempUnit.innerHTML = '&#176;K';
-		weatherData.tempUnit = 'K';
-		weatherData.days.forEach((day) => (day.temp = day.temp + 273), 15);
-	} else {
-		btnChangeTempUnit.innerHTML = '&#176;C';
-		weatherData.tempUnit = 'C';
-		weatherData.days.forEach((day) => (day.temp = Math.round(day.temp - 273.15)));
-	};
-	renderDayDetails();
-};
-
-let changeSpeedUnit = () => {
-	toggleSpeed = !toggleSpeed;
-
-	if (toggleSpeed) {
-		btnChangeSpeedUnit.innerHTML = 'KM/H';
-		weatherData.windSpeedUnit = 'km/h';
-		weatherData.days.forEach((day) => (day.windSpeed = day.windSpeed * 18 / 5));
-	} else {
-		btnChangeSpeedUnit.innerHTML = 'M/S';
-		weatherData.windSpeedUnit = 'm/s';
-		weatherData.days.forEach((day) => (day.windSpeed = day.windSpeed * 5 / 18));
-	};
-	renderDayDetails();
-};
-
+// Function to change background image for diferent urls 
 let changeBackgroundImg = (e) => {
 	e.preventDefault();
 	let dayId = location.hash.split('/')[1];
@@ -142,12 +145,10 @@ let changeBackgroundImg = (e) => {
 };
 
 // Event listeners
-// window.addEventListener('hashchange', handelRoutes);
-// window.addEventListener('hashchange', changeBackgroundImg);
 window.addEventListener('hashchange', (e) => {
 	handelRoutes(e);
 	changeBackgroundImg(e);
-})
+});
 window.addEventListener('load', (e) => {
 	handelRoutes(e);
 	changeBackgroundImg(e);
